@@ -25,7 +25,7 @@ PROMPT = f"""
   "explanation": "정답인 이유와 오답인 이유를 포함한 상세한 해설을 작성하세요.",
   "flashcard_keywords": ["핵심키워드1", "핵심키워드2", "핵심키워드3"]
 }}
-""
+"""
 
 def generate_new_question():
     # gpt-4o-mini 모델 호출
