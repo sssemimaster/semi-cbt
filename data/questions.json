@@ -1,0 +1,34 @@
+[
+  {
+    "id": "ETCH-001",
+    "category": "식각 공정",
+    "topic": "친환경 공정 및 가스 재활용",
+    "difficulty": "중급",
+    "question": "반도체 식각 공정에서 발생하는 온실가스인 SF6를 저감하기 위한 가장 효율적인 재활용 방안은 무엇인가?",
+    "options": [
+      "SF6를 전량 포집하여 대기 중으로 자연 방출한다.",
+      "SF6 분해 부산물을 회수하여 습식 식각용 HF(불산) 원료로 전환하여 라인에 재투입한다.",
+      "식각 챔버 내 플라즈마 온도를 낮추어 SF6의 화학 반응을 완전히 억제한다.",
+      "NF3 가스와 1:1 비율로 혼합하여 연소시킨 후 폐기한다."
+    ],
+    "answer": 1,
+    "explanation": "SF6 분해 시 발생하는 플루오린(F) 계열 부산물을 정제하여 HF로 변환하면, 습식 식각(Wet Etch) 라인에 재투입할 수 있어 온실가스 감축과 원가 절감을 동시에 달성할 수 있습니다.",
+    "flashcard_keywords": ["SF6 부산물 회수", "HF 변환", "습식 식각 재투입"]
+  },
+  {
+    "id": "DATA-001",
+    "category": "공정 데이터 분석",
+    "topic": "Wafer Map Defect",
+    "difficulty": "고급",
+    "question": "WM-811K와 같은 웨이퍼 맵 결함(Defect) 데이터셋을 활용해 패턴 분류 모델을 구축할 때, 공간적 특징(Spatial Feature) 추출에 가장 적합한 딥러닝 아키텍처는?",
+    "options": [
+      "RNN (Recurrent Neural Network)",
+      "CNN (Convolutional Neural Network) 및 U-Net",
+      "MLP (Multi-Layer Perceptron)",
+      "ARIMA (AutoRegressive Integrated Moving Average)"
+    ],
+    "answer": 1,
+    "explanation": "웨이퍼 맵의 결함은 이미지 형태의 공간적 패턴(Center, Edge-Ring, Scratch 등)을 띠므로, 합성곱 연산을 통해 공간적 특징을 추출하는 CNN이나 픽셀 단위 분할에 강한 U-Net 아키텍처가 가장 효과적입니다.",
+    "flashcard_keywords": ["WM-811K", "CNN", "U-Net", "공간적 특징"]
+  }
+]
