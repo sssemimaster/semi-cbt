@@ -1,1 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SemiCBT - 반도체 직무 전공 AI CBT</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
+  <!-- 상단 네비게이션 -->
+  <header class="bg-indigo-900 text-white p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-xl font-bold tracking-tight">⚡ SemiCBT <span class="text-xs font-normal text-indigo-300">| 반도체 전공·직무 AI 퀴즈</span></h1>
+    <button id="loginBtn" class="bg-indigo-600 hover:bg-indigo-500 text-xs px-3 py-2 rounded-lg font-medium transition">구글 로그인</button>
+  </header>
+
+  <!-- 퀴즈 메인 카드 -->
+  <main class="flex-1 max-w-2xl w-full mx-auto p-4 flex flex-col justify-center">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+      
+      <!-- 카테고리/태그 -->
+      <div class="flex justify-between items-center mb-4">
+        <span id="categoryBadge" class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded">식각공정</span>
+        <span id="progressText" class="text-xs text-slate-400 font-medium">문제 1 / 10</span>
+      </div>
+
+      <!-- 문제 지문 -->
+      <h2 id="questionTitle" class="text-lg font-bold text-slate-900 mb-6 leading-snug">
+        로딩 중...
+      </h2>
+
+      <!-- 보기 목록 -->
+      <div id="optionsContainer" class="space-y-3">
+        <!-- JS가 동적으로 보기 버튼을 생성합니다 -->
+      </div>
+
+      <!-- 정답 및 AI 해설 (기본 숨김) -->
+      <div id="explanationBox" class="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-xl hidden">
+        <div id="resultStatus" class="font-bold text-sm mb-1"></div>
+        <p id="explanationText" class="text-sm text-slate-600 leading-relaxed"></p>
+        <button id="nextBtn" class="mt-4 w-full bg-indigo-600 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">다음 문제</button>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // 퀴즈 상태 관리 및 데이터 로딩 로직
+    let currentQuiz = [];
+    let currentIndex = 0;
+
+    async function loadQuizData() {
+      // GitHub Pages에 업로드된 data/questions.json을 호출
+      const res = await fetch('./data/photo_litho.json');
+      currentQuiz = await res.json();
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = currentQuiz[currentIndex];
+      document.getElementById('questionTitle').innerText = q.question;
+      document.getElementById('categoryBadge').innerText = q.category;
+      document.getElementById('progressText').innerText = `문제 ${currentIndex + 1} / ${currentQuiz.length}`;
+      
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+      document.getElementById('explanationBox').classList.add('hidden');
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50 transition font-medium text-sm text-slate-700 flex items-center";
+        btn.innerHTML = `<span class="w-6 h-6 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-xs mr-3 font-semibold">${idx + 1}</span> ${opt}`;
+        btn.onclick = () => checkAnswer(idx);
+        container.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selectedIndex) {
+      const q = currentQuiz[currentIndex];
+      const isCorrect = selectedIndex === q.answer;
+      
+      const box = document.getElementById('explanationBox');
+      const status = document.getElementById('resultStatus');
+      const text = document.getElementById('explanationText');
+
+      box.classList.remove('hidden');
+      if (isCorrect) {
+        status.className = "font-bold text-sm mb-1 text-emerald-600";
+        status.innerText = "⭕ 정답입니다!";
+      } else {
+        status.className = "font-bold text-sm mb-1 text-rose-600";
+        status.innerText = `❌ 오답입니다. (정답: ${q.answer + 1}번)`;
+      }
+      text.innerText = q.explanation;
+    }
+
+    document.getElementById('nextBtn').onclick = () => {
+      if (currentIndex < currentQuiz.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      } else {
+        alert('모든 문제를 완료했습니다!');
+      }
+    };
+
+    loadQuizData();
+  </script>
+</body>
+</html>
