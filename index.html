@@ -34,7 +34,7 @@
         
         <button onclick="openNote()" class="bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 p-6 rounded-2xl flex flex-col items-center justify-center transition shadow-sm">
           <span class="text-3xl mb-2">⭐</span>
-          <span class="font-bold text-sm">북마크 / 오답노트</span>
+          <span class="font-bold text-sm">오답 / 북마크</span>
         </button>
       </div>
 
@@ -72,7 +72,6 @@
         </select>
       </div>
 
-      <!-- ✨ 신규 추가: 문제 수 선택 -->
       <div class="mb-8">
         <label class="block text-sm font-semibold text-slate-700 mb-2">문제 수 선택</label>
         <select id="select-count" class="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-lg p-3 outline-none focus:border-indigo-500">
@@ -100,7 +99,6 @@
         </button>
       </div>
 
-      <!-- ✨ 신규 추가: 별표 버튼 연동 -->
       <div class="flex justify-between items-start mb-6">
         <h2 id="questionTitle" class="text-lg font-bold text-slate-900 leading-snug flex-1">문제 지문</h2>
         <button onclick="toggleStar()" id="starBtn" class="text-3xl text-slate-200 hover:text-amber-400 transition ml-3 -mt-1 outline-none">☆</button>
@@ -134,12 +132,13 @@
           <option value="식각 공정">식각 공정</option>
           <option value="증착 및 이온주입">증착 및 이온주입</option>
           <option value="HBM 및 TSV 패키징">HBM 및 TSV 패키징</option>
+          <option value="반도체 공정 데이터 분석">반도체 공정 데이터 분석</option>
         </select>
       </div>
       <div id="theoryContainer" class="space-y-4"></div>
     </div>
 
-    <!-- ✨ [화면 5] 오답노트 (북마크) -->
+    <!-- [화면 5] 신규 오답노트 (아코디언 UI 적용) -->
     <div id="view-note" class="hidden w-full flex flex-col">
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-4 text-center">
         <h2 class="text-xl font-bold text-slate-800">⭐ 나의 오답 / 북마크 노트</h2>
@@ -148,21 +147,17 @@
       <div id="noteContainer" class="space-y-4"></div>
     </div>
 
-    <!-- [화면 6] 시험 결과 (정답률 표시) -->
+    <!-- [화면 6] 시험 결과 -->
     <div id="view-result" class="hidden w-full flex flex-col space-y-4">
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
         <h2 class="text-2xl font-bold text-slate-800 mb-2">모의고사 완료!</h2>
-        
         <div class="flex justify-center items-center my-6">
           <div class="w-32 h-32 rounded-full border-8 border-indigo-500 flex flex-col items-center justify-center">
-            <!-- ✨ 정답률 표시로 변경 -->
             <span id="scoreText" class="text-3xl font-black text-indigo-600">80</span>
             <span class="text-sm text-slate-500 font-bold">% 정답률</span>
           </div>
         </div>
-
         <p id="scoreDetail" class="text-base text-slate-600 font-medium mb-6">총 10문제 중 8문제를 맞혔습니다.</p>
-
         <button onclick="changeView('view-lobby')" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-xl transition shadow-md">
           메인 로비로 돌아가기
         </button>
@@ -178,8 +173,6 @@
     let currentIndex = 0;    
     let isFlashcardMode = false;
     let correctCount = 0;
-
-    // ✨ 브라우저 저장소에서 별표(북마크) 문제 ID 목록 불러오기
     let starredIds = JSON.parse(localStorage.getItem('semiCbtStarred')) || [];
 
     async function initApp() {
@@ -202,7 +195,6 @@
       document.getElementById('view-learning').classList.add('hidden');
       document.getElementById('view-note').classList.add('hidden');
       document.getElementById('view-result').classList.add('hidden');
-      
       document.getElementById(viewId).classList.remove('hidden');
     }
 
@@ -243,13 +235,12 @@
       });
     }
 
-    /* --- [북마크 / 오답노트 로직] --- */
+    /* --- [북마크 / 오답노트 로직 (아코디언 형태 추가)] --- */
     function openNote() {
       changeView('view-note');
       const container = document.getElementById('noteContainer');
       container.innerHTML = '';
 
-      // 전체 문제 중 북마크된 ID와 일치하는 문제만 필터링
       const savedQuestions = allQuizData.filter(q => starredIds.includes(q.id));
 
       if (savedQuestions.length === 0) {
@@ -266,21 +257,42 @@
             <span class="bg-amber-100 text-amber-700 text-xs font-bold px-2 py-1 rounded">${q.category}</span>
             <button onclick="removeNote('${q.id}')" class="text-xs text-slate-400 hover:text-rose-500 font-bold underline">삭제</button>
           </div>
-          <h3 class="text-base font-bold text-slate-900 mb-3">${q.question}</h3>
-          <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 mb-3">
-            <span class="text-xs font-bold text-emerald-600 mb-1 block">정답: ${q.options[q.answer]}</span>
+          <h3 class="text-base font-bold text-slate-900 mb-4">${q.question}</h3>
+          
+          <button onclick="toggleNoteAnswer('${q.id}')" id="btn-${q.id}" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 text-sm font-bold py-2 rounded-lg transition mb-2">
+            정답 및 해설 보기 ⬇️
+          </button>
+          
+          <div id="ans-${q.id}" class="hidden bg-slate-50 p-4 rounded-lg border border-slate-200 mt-3 transition-all">
+            <span class="text-sm font-bold text-emerald-600 mb-2 block">정답: ${q.options[q.answer]}</span>
+            <p class="text-sm text-slate-600 mb-4">${q.explanation}</p>
+            <div class="border-t border-slate-200 pt-3 mt-2">
+              <span class="text-xs font-bold text-indigo-700 mb-1 block">🗣️ 면접 핵심 스크립트</span>
+              <p class="text-sm text-slate-800 font-medium">"${q.interview_answer || q.explanation}"</p>
+            </div>
           </div>
-          <p class="text-sm text-slate-600">${q.explanation}</p>
         `;
         container.appendChild(card);
       });
     }
 
-    // 노트에서 바로 삭제 기능
+    // 해설 접기/펴기 함수
+    function toggleNoteAnswer(id) {
+      const ansDiv = document.getElementById(`ans-${id}`);
+      const btn = document.getElementById(`btn-${id}`);
+      if (ansDiv.classList.contains('hidden')) {
+        ansDiv.classList.remove('hidden');
+        btn.innerHTML = "해설 닫기 ⬆️";
+      } else {
+        ansDiv.classList.add('hidden');
+        btn.innerHTML = "정답 및 해설 보기 ⬇️";
+      }
+    }
+
     function removeNote(id) {
       starredIds = starredIds.filter(savedId => savedId !== id);
       localStorage.setItem('semiCbtStarred', JSON.stringify(starredIds));
-      openNote(); // 화면 새로고침
+      openNote(); 
     }
 
     /* --- [시험/CBT 로직] --- */
@@ -300,10 +312,7 @@
         return;
       }
 
-      // 문제를 랜덤하게 섞은 후
       filteredQuiz = filteredQuiz.sort(() => Math.random() - 0.5);
-      
-      // ✨ 유저가 선택한 문제 수만큼 자르기 (ALL이 아닐 경우)
       if (selectedCount !== "ALL") {
         filteredQuiz = filteredQuiz.slice(0, parseInt(selectedCount));
       }
@@ -324,26 +333,21 @@
       renderQuestion();
     }
 
-    // ✨ 별표 토글 함수
     function toggleStar() {
       const currentQId = filteredQuiz[currentIndex].id;
       const starBtn = document.getElementById('starBtn');
 
       if (starredIds.includes(currentQId)) {
-        // 이미 있으면 제거
         starredIds = starredIds.filter(id => id !== currentQId);
         starBtn.innerText = "☆";
         starBtn.classList.remove('text-amber-400');
         starBtn.classList.add('text-slate-200');
       } else {
-        // 없으면 추가
         starredIds.push(currentQId);
         starBtn.innerText = "★";
         starBtn.classList.remove('text-slate-200');
         starBtn.classList.add('text-amber-400');
       }
-      
-      // 변경된 배열을 LocalStorage에 덮어쓰기
       localStorage.setItem('semiCbtStarred', JSON.stringify(starredIds));
     }
 
@@ -353,7 +357,6 @@
       document.getElementById('progressText').innerText = `문제 ${currentIndex + 1} / ${filteredQuiz.length}`;
       document.getElementById('questionTitle').innerText = q.question;
       
-      // ✨ 렌더링 시 현재 문제가 북마크 되어있는지 확인하여 별표 UI 세팅
       const starBtn = document.getElementById('starBtn');
       if (starredIds.includes(q.id)) {
         starBtn.innerText = "★";
@@ -464,13 +467,10 @@
       }
     }
 
-    // ✨ 합격/불합격을 없애고 정답률만 보여주도록 수정
     function showResult() {
       changeView('view-result');
-      
       const totalCount = filteredQuiz.length;
       const score = Math.round((correctCount / totalCount) * 100);
-      
       document.getElementById('scoreText').innerText = score;
       document.getElementById('scoreDetail').innerText = `총 ${totalCount}문제 중 ${correctCount}문제를 맞혔습니다.`;
     }
