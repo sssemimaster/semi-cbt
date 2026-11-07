@@ -44,18 +44,17 @@
       </button>
     </div>
 
-    <!-- [화면 2] 시험 설정, 문제 풀이, 오답노트, 시험 결과 (이전 코드와 동일 유지) -->
-    <!-- (시험 설정 영역) -->
+    <!-- [화면 2] 시험 설정 -->
     <div id="view-setup" class="hidden w-full bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
       <h2 class="text-xl font-bold text-slate-800 mb-6">모의고사 설정</h2>
       <div class="mb-4">
         <label class="block text-sm font-semibold text-slate-700 mb-2">과목 선택</label>
         <select id="select-subject" class="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-lg p-3 outline-none focus:border-indigo-500">
           <option value="ALL">✨ 전체 과목 통합</option>
-          <option value="식각 공정">식각 공정</option>
-          <option value="포토 공정">포토 공정</option>
-          <option value="반도체 공정 데이터 분석">반도체 공정 데이터 분석</option>
-          <option value="HBM 및 TSV 패키징">HBM 및 TSV 패키징</option>
+          <!-- 범용적인 표준 카테고리로 업데이트 완료 -->
+          <option value="반도체 기초 이론">반도체 기초 이론 (물리/소자)</option>
+          <option value="반도체 8대 공정">반도체 8대 공정</option>
+          <option value="차세대 첨단 기술">차세대 첨단 기술 (HBM/GAA 등)</option>
         </select>
       </div>
       <div class="mb-4">
@@ -81,7 +80,7 @@
       </button>
     </div>
 
-    <!-- (문제 풀이 영역) -->
+    <!-- [화면 3] 문제 풀이 영역 -->
     <div id="view-quiz" class="hidden w-full bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
       <div class="flex justify-between items-center mb-4">
         <div>
@@ -111,7 +110,7 @@
       </div>
     </div>
 
-    <!-- ✨ [화면 4] 신규 이론 학습 화면 (드릴다운 UI) -->
+    <!-- [화면 4] 신규 이론 학습 화면 (드릴다운 UI) -->
     <div id="view-learning" class="hidden w-full flex flex-col">
       <!-- 네비게이션 브레드크럼 (홈 > 대분류 > 중분류) -->
       <div class="bg-emerald-50 rounded-xl border border-emerald-200 p-3 mb-4 flex items-center shadow-sm">
@@ -126,7 +125,7 @@
       <div id="learningContainer" class="grid grid-cols-1 gap-4"></div>
     </div>
 
-    <!-- (오답노트 영역) -->
+    <!-- [화면 5] 오답노트 영역 -->
     <div id="view-note" class="hidden w-full flex flex-col">
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-4 text-center">
         <h2 class="text-xl font-bold text-slate-800">⭐ 나의 오답 / 북마크 노트</h2>
@@ -135,7 +134,7 @@
       <div id="noteContainer" class="space-y-4"></div>
     </div>
 
-    <!-- (시험 결과 영역) -->
+    <!-- [화면 6] 시험 결과 영역 -->
     <div id="view-result" class="hidden w-full flex flex-col space-y-4">
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
         <h2 class="text-2xl font-bold text-slate-800 mb-2">모의고사 완료!</h2>
@@ -195,29 +194,25 @@
     }
 
     /* ==========================================
-       ✨ 이론 학습 (드릴다운 네비게이션) 로직
+       이론 학습 (드릴다운 네비게이션) 로직
        ========================================== */
     function startLearning() {
       changeView('view-learning');
-      // 네비게이션 초기화
       document.getElementById('navDivider1').classList.add('hidden');
       document.getElementById('navCategory').classList.add('hidden');
       document.getElementById('navDivider2').classList.add('hidden');
       document.getElementById('navSubject').classList.add('hidden');
       
-      // Step 1. 대분류(Category) 리스트 그리기
       const container = document.getElementById('learningContainer');
-      container.className = "grid grid-cols-1 sm:grid-cols-2 gap-4"; // 2단 그리드
+      container.className = "grid grid-cols-1 sm:grid-cols-2 gap-4"; 
       container.innerHTML = '';
 
-      // 존재하는 카테고리 중복 제거 추출
       const categories = [...new Set(allTheories.map(t => t.category))];
 
       categories.forEach(cat => {
         const btn = document.createElement('button');
         btn.className = "bg-white border border-slate-200 hover:border-emerald-500 hover:shadow-md p-6 rounded-2xl text-left transition flex justify-between items-center group";
         btn.onclick = () => renderSubjects(cat);
-        // 과목 수 카운트
         const count = allTheories.filter(t => t.category === cat).length;
         btn.innerHTML = `
           <div>
@@ -233,7 +228,6 @@
     function renderSubjects(category) {
       currentCategory = category;
       
-      // 네비게이션 업데이트
       document.getElementById('navDivider1').classList.remove('hidden');
       document.getElementById('navCategory').classList.remove('hidden');
       document.getElementById('navCategory').innerText = category;
@@ -263,13 +257,12 @@
     function renderTitles(category, subject) {
       currentSubject = subject;
 
-      // 네비게이션 업데이트
       document.getElementById('navDivider2').classList.remove('hidden');
       document.getElementById('navSubject').classList.remove('hidden');
       document.getElementById('navSubject').innerText = subject;
 
       const container = document.getElementById('learningContainer');
-      container.className = "flex flex-col space-y-3"; // 리스트 형태
+      container.className = "flex flex-col space-y-3"; 
       container.innerHTML = '';
 
       const filtered = allTheories.filter(t => t.category === category && t.subject === subject);
@@ -314,7 +307,9 @@
       container.appendChild(card);
     }
 
-    /* --- [북마크 / 오답노트 로직 (기존과 동일)] --- */
+    /* ==========================================
+       북마크 / 오답노트 로직
+       ========================================== */
     function openNote() {
       changeView('view-note');
       const container = document.getElementById('noteContainer');
@@ -367,14 +362,17 @@
       openNote(); 
     }
 
-    /* --- [시험/CBT 로직 (기존과 동일)] --- */
+    /* ==========================================
+       시험/CBT 로직
+       ========================================== */
     function startQuiz() {
       const selectedSubject = document.getElementById('select-subject').value;
       const selectedDifficulty = document.getElementById('select-difficulty').value;
       const selectedCount = document.getElementById('select-count').value;
 
       filteredQuiz = allQuizData.filter(q => {
-        const matchSubj = (selectedSubject === "ALL" || q.category === selectedSubject);
+        // category 또는 subject가 일치하도록 좀 더 유연하게 필터링
+        const matchSubj = (selectedSubject === "ALL" || q.category === selectedSubject || q.subject === selectedSubject);
         const matchDiff = (selectedDifficulty === "ALL" || q.difficulty === selectedDifficulty);
         return matchSubj && matchDiff;
       });
