@@ -68,6 +68,7 @@ def generate_contents_from_news():
       ],
       "theories": [
         {{
+          "category": "반도체 8대 공정 등 대분류",
           "subject": "반도체 8대 공정 등",
           "title": "{title} (요약)",
           "content": "기사의 핵심 기술 원리와 특징을 3~4문단으로 요약한 텍스트. 문단 바꿈은 \\n 으로 처리.",
