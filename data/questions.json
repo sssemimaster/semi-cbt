@@ -1,5 +1,105 @@
 [
   {
+    "id": "AUTO-88001",
+    "category": "차세대 첨단 기술",
+    "topic": "최신 패키징(HBM, TSV) 및 소자 구조(GAA)",
+    "difficulty": "초급",
+    "question": "고대역폭 메모리(HBM)의 주된 장점은 무엇인가요?",
+    "options": [
+      "높은 전력 효율",
+      "우수한 열 관리",
+      "빠른 데이터 전송 속도",
+      "저렴한 제조 비용"
+    ],
+    "answer": 2,
+    "explanation": "고대역폭 메모리(HBM)는 여러 개의 메모리 다이를 수직으로 쌓아 높은 대역폭을 제공하므로, 데이터 전송 속도가 빠릅니다.",
+    "flashcard_keywords": [
+      "HBM",
+      "고대역폭"
+    ],
+    "interview_answer": "고대역폭 메모리의 주된 장점은 빠른 데이터 전송 속도입니다. 이는 데이터 처리 성능을 극대화하는 데 중요한 요소입니다."
+  },
+  {
+    "id": "AUTO-88002",
+    "category": "차세대 첨단 기술",
+    "topic": "최신 패키징(HBM, TSV) 및 소자 구조(GAA)",
+    "difficulty": "중급",
+    "question": "Through-Silicon Via (TSV) 기술의 주된 목적은 무엇인가요?",
+    "options": [
+      "열 방출 개선",
+      "전력 소비 감소",
+      "수직적 연결성 제공",
+      "비용 절감"
+    ],
+    "answer": 2,
+    "explanation": "Through-Silicon Via (TSV) 기술은 실리콘 다이 사이에 수직적 연결을 제공하여 패키징 밀도를 높이고, 신호 전송을 개선합니다.",
+    "flashcard_keywords": [
+      "TSV",
+      "수직적 연결"
+    ],
+    "interview_answer": "Through-Silicon Via 기술의 주된 목적은 수직적 연결성을 제공하는 것입니다. 이는 고성능 반도체 패키징에 필수적입니다."
+  },
+  {
+    "id": "AUTO-88003",
+    "category": "차세대 첨단 기술",
+    "topic": "최신 패키징(HBM, TSV) 및 소자 구조(GAA)",
+    "difficulty": "중급",
+    "question": "GAA(Gate-All-Around) 트랜지스터의 주요 이점은 무엇인가요?",
+    "options": [
+      "높은 전압 내성",
+      "더 작은 면적",
+      "우수한 전류 제어",
+      "저렴한 생산 비용"
+    ],
+    "answer": 2,
+    "explanation": "GAA 구조는 게이트가 소자의 모든 면을 감싸기 때문에 전류 제어가 우수하여 성능이 향상됩니다.",
+    "flashcard_keywords": [
+      "GAA",
+      "트랜지스터"
+    ],
+    "interview_answer": "GAA 트랜지스터의 주요 이점은 우수한 전류 제어입니다. 이는 소자의 성능을 극대화하는 데 중요한 요소입니다."
+  },
+  {
+    "id": "AUTO-88004",
+    "category": "차세대 첨단 기술",
+    "topic": "최신 패키징(HBM, TSV) 및 소자 구조(GAA)",
+    "difficulty": "고급",
+    "question": "EUV(Extreme Ultraviolet) 리소그래피의 주요 장점은 무엇인가요?",
+    "options": [
+      "고해상도 패턴 형성",
+      "제조 비용 절감",
+      "단순한 공정",
+      "빠른 제조 속도"
+    ],
+    "answer": 0,
+    "explanation": "EUV 리소그래피는 짧은 파장의 빛을 사용하여 고해상도 패턴을 형성할 수 있어, 반도체 소자의 미세화에 기여합니다.",
+    "flashcard_keywords": [
+      "EUV",
+      "리소그래피"
+    ],
+    "interview_answer": "EUV 리소그래피의 주요 장점은 고해상도 패턴 형성입니다. 이는 더욱 미세한 반도체 소자를 제조하는 데 필수적입니다."
+  },
+  {
+    "id": "AUTO-88005",
+    "category": "차세대 첨단 기술",
+    "topic": "최신 패키징(HBM, TSV) 및 소자 구조(GAA)",
+    "difficulty": "고급",
+    "question": "HBM과 DRAM의 가장 큰 차이점은 무엇인가요?",
+    "options": [
+      "패키징 방식",
+      "전력 소비",
+      "데이터 전송 속도",
+      "제조 기술"
+    ],
+    "answer": 0,
+    "explanation": "HBM은 수직적 패키징 방식으로 여러 메모리 칩을 쌓아 대역폭을 증가시키며, DRAM은 수평적으로 배치되어 상대적으로 대역폭이 낮습니다.",
+    "flashcard_keywords": [
+      "HBM",
+      "DRAM"
+    ],
+    "interview_answer": "HBM과 DRAM의 가장 큰 차이점은 패키징 방식입니다. HBM은 수직적 구조로 설계되어 더 높은 대역폭을 제공합니다."
+  },
+  {
     "id": "AUTO-001",
     "category": "증착 및 이온주입",
     "topic": "증착 기술",
