@@ -8,6 +8,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
+  <!-- 공통 상단 네비게이션 -->
   <header class="bg-indigo-900 text-white p-4 shadow-md flex justify-between items-center relative z-10">
     <h1 class="text-xl font-bold tracking-tight cursor-pointer" onclick="changeView('view-lobby')">
       ⚡ SemiCBT
@@ -19,7 +20,9 @@
 
   <main class="flex-1 max-w-2xl w-full mx-auto p-4 flex flex-col justify-center">
     
-    <!-- [화면 1] 메인 로비 -->
+    <!-- ==========================================
+         [화면 1] 메인 로비 (Lobby)
+         ========================================== -->
     <div id="view-lobby" class="w-full flex flex-col space-y-4">
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center mb-4">
         <h2 class="text-2xl font-bold text-slate-800 mb-2">반도체 취업 마스터</h2>
@@ -39,7 +42,9 @@
       </button>
     </div>
 
-    <!-- [화면 2] 시험 설정 -->
+    <!-- ==========================================
+         [화면 2] 시험 설정 (Exam Setup)
+         ========================================== -->
     <div id="view-setup" class="hidden w-full bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
       <h2 class="text-xl font-bold text-slate-800 mb-6">모의고사 설정</h2>
       
@@ -71,16 +76,16 @@
       </button>
     </div>
 
-    <!-- [화면 3] 문제 풀이 (객관식 & 플래시카드 통합) -->
+    <!-- ==========================================
+         [화면 3] 문제 풀이 (Quiz View) - 객관식 & 플래시카드 통합
+         ========================================== -->
     <div id="view-quiz" class="hidden w-full bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
       
-      <!-- 상단 정보 및 모드 전환 토글 -->
       <div class="flex justify-between items-center mb-4">
         <div>
           <span id="categoryBadge" class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded mr-2">과목명</span>
           <span id="progressText" class="text-xs text-slate-400 font-medium">1 / 10</span>
         </div>
-        <!-- 모드 전환 버튼 -->
         <button onclick="toggleMode()" id="modeToggleBtn" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold px-3 py-1.5 rounded-lg transition border border-slate-200">
           🔄 면접 모드로 전환
         </button>
@@ -102,15 +107,15 @@
       <!-- 해설 및 결과 표시 영역 -->
       <div id="explanationBox" class="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-xl hidden">
         <div id="resultStatus" class="font-bold text-sm mb-2"></div>
-        <!-- 플래시카드용 키워드 표시 영역 -->
         <div id="keywordTags" class="mb-3 hidden"></div>
-        
         <p id="explanationText" class="text-sm text-slate-600 leading-relaxed"></p>
         <button id="nextBtn" onclick="nextQuestion()" class="mt-4 w-full bg-indigo-600 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">다음 문제</button>
       </div>
     </div>
 
-    <!-- [화면 4] 과목별 이론 학습 -->
+    <!-- ==========================================
+         [화면 4] 과목별 이론 학습 (Learning View)
+         ========================================== -->
     <div id="view-learning" class="hidden w-full flex flex-col">
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-4 flex items-center justify-between">
         <label class="text-sm font-bold text-slate-700">분야 선택 :</label>
@@ -133,10 +138,9 @@
     let allTheories = [];    
     let filteredQuiz = [];   
     let currentIndex = 0;    
-    
-    // 핵심 추가: 현재 모드 상태 저장 (false = 객관식, true = 면접 플래시카드)
     let isFlashcardMode = false;
 
+    // 데이터 불러오기
     async function initApp() {
       try {
         const [quizRes, theoryRes] = await Promise.all([
@@ -150,6 +154,7 @@
       }
     }
 
+    // 화면 전환
     function changeView(viewId) {
       document.getElementById('view-lobby').classList.add('hidden');
       document.getElementById('view-setup').classList.add('hidden');
@@ -213,19 +218,16 @@
 
       filteredQuiz = filteredQuiz.sort(() => Math.random() - 0.5);
       currentIndex = 0;
-      isFlashcardMode = false; // 시작할 때는 기본 객관식 모드로
+      isFlashcardMode = false;
       document.getElementById('modeToggleBtn').innerText = "🔄 면접 모드로 전환";
       changeView('view-quiz');
       renderQuestion();
     }
 
-    // 모드 전환 토글 함수
     function toggleMode() {
       isFlashcardMode = !isFlashcardMode;
       const btn = document.getElementById('modeToggleBtn');
       btn.innerText = isFlashcardMode ? "🔄 객관식 모드로 전환" : "🔄 면접 모드로 전환";
-      
-      // 모드를 바꾼 후 화면을 다시 그리기
       renderQuestion();
     }
 
@@ -241,18 +243,13 @@
       
       optContainer.innerHTML = '';
       expBox.classList.add('hidden');
-      document.getElementById('keywordTags').classList.add('hidden'); // 키워드 영역 숨김
+      document.getElementById('keywordTags').classList.add('hidden');
       
       if (isFlashcardMode) {
-        // [플래시카드 모드] 보기 숨기고, 클릭 버튼 보이기
         optContainer.classList.add('hidden');
         flashContainer.classList.remove('hidden');
-        
-        // 플래시카드 버튼 상태 초기화
-        const revealBtn = document.getElementById('revealBtn');
-        revealBtn.classList.remove('hidden');
+        document.getElementById('revealBtn').classList.remove('hidden');
       } else {
-        // [객관식 모드] 클릭 버튼 숨기고, 4지선다 보기 생성
         flashContainer.classList.add('hidden');
         optContainer.classList.remove('hidden');
         
@@ -266,7 +263,7 @@
       }
     }
 
-    // [기능 추가] 플래시카드 정답 확인 함수
+    // [최신 업데이트] 플래시카드 면접 스크립트 출력 로직
     function revealFlashcard() {
       const q = filteredQuiz[currentIndex];
       const box = document.getElementById('explanationBox');
@@ -274,15 +271,18 @@
       const text = document.getElementById('explanationText');
       const keywordBox = document.getElementById('keywordTags');
       
-      // 확인 버튼 숨기기
       document.getElementById('revealBtn').classList.add('hidden');
       
-      // 모범 답안 및 키워드 세팅
-      status.className = "font-bold text-sm mb-1 text-indigo-700";
-      status.innerText = "💡 면접관이 기대한 핵심 답변";
-      text.innerText = q.explanation;
+      status.className = "font-bold text-sm mb-2 text-indigo-700";
+      status.innerText = "🗣️ 면접관이 기대한 핵심 답변";
       
-      // 키워드 태그 렌더링
+      // 면접용 스크립트가 있으면 그것을, 없으면 기존 해설을 띄움
+      if (q.interview_answer) {
+        text.innerHTML = `<span class="text-slate-800 font-medium">" ${q.interview_answer} "</span>`;
+      } else {
+        text.innerText = q.explanation;
+      }
+      
       if (q.flashcard_keywords && q.flashcard_keywords.length > 0) {
         keywordBox.classList.remove('hidden');
         keywordBox.innerHTML = q.flashcard_keywords.map(kw => 
@@ -296,7 +296,6 @@
       updateNextButton();
     }
 
-    // 객관식 정답 확인 함수
     function checkAnswer(selectedIndex) {
       const q = filteredQuiz[currentIndex];
       const isCorrect = selectedIndex === q.answer;
@@ -307,7 +306,7 @@
 
       Array.from(container.children).forEach(btn => btn.disabled = true);
       box.classList.remove('hidden');
-      document.getElementById('keywordTags').classList.add('hidden'); // 객관식에선 키워드 숨김
+      document.getElementById('keywordTags').classList.add('hidden'); 
 
       if (isCorrect) {
         status.className = "font-bold text-sm mb-1 text-emerald-600";
@@ -321,7 +320,6 @@
       updateNextButton();
     }
 
-    // 다음 문제 버튼 상태 업데이트 공통 함수
     function updateNextButton() {
       const nextBtn = document.getElementById('nextBtn');
       if (currentIndex === filteredQuiz.length - 1) {
