@@ -1,5 +1,105 @@
 [
   {
+    "id": "AUTO-49435",
+    "category": "반도체 기초 이론",
+    "topic": "MOSFET",
+    "difficulty": "중급",
+    "question": "MOSFET의 작동 원리에서 게이트 전압이 증가할 때, 어떤 현상이 발생하는가?",
+    "options": [
+      "채널이 형성된다",
+      "전류가 차단된다",
+      "전압이 감소한다",
+      "온도가 상승한다"
+    ],
+    "answer": 0,
+    "explanation": "MOSFET에서 게이트 전압이 증가하면, 전도 채널이 형성되어 소스와 드레인 간에 전류가 흐를 수 있게 된다. 이는 MOSFET의 스위칭 동작의 기초 원리이다.",
+    "flashcard_keywords": [
+      "MOSFET",
+      "채널 형성"
+    ],
+    "interview_answer": "MOSFET에서 게이트 전압이 증가하면 전도 채널이 형성되어 소스와 드레인 간에 전류가 흐릅니다. 이는 MOSFET의 스위칭 기능을 가능하게 합니다."
+  },
+  {
+    "id": "AUTO-49436",
+    "category": "반도체 기초 이론",
+    "topic": "반도체 물리",
+    "difficulty": "초급",
+    "question": "N형 반도체에서 전자의 주요 역할은 무엇인가?",
+    "options": [
+      "전기를 차단하는 것",
+      "전기를 전달하는 것",
+      "열을 발생시키는 것",
+      "빛을 방출하는 것"
+    ],
+    "answer": 1,
+    "explanation": "N형 반도체는 다수 캐리어로 전자가 존재하며, 이 전자들이 전기를 전달하는 주된 역할을 한다. 전자가 이동하면서 전류를 생성한다.",
+    "flashcard_keywords": [
+      "N형 반도체",
+      "전자"
+    ],
+    "interview_answer": "N형 반도체에서 전자는 전기를 전달하는 주요 역할을 수행합니다. 이 전자들이 이동하면서 전류를 형성합니다."
+  },
+  {
+    "id": "AUTO-49437",
+    "category": "반도체 기초 이론",
+    "topic": "트랜지스터 동작 원리",
+    "difficulty": "중급",
+    "question": "BJT에서 베이스 전류가 증가하면 어떤 결과가 나타나는가?",
+    "options": [
+      "컬렉터 전류가 감소한다",
+      "베이스 전류가 감소한다",
+      "컬렉터 전류가 증가한다",
+      "에미터 전류가 증가하지 않는다"
+    ],
+    "answer": 2,
+    "explanation": "BJT(Bipolar Junction Transistor)에서 베이스 전류가 증가하면, 이는 컬렉터 전류의 증가를 초래한다. 이는 베이스 전류와 컬렉터 전류 간의 비례 관계 때문이다.",
+    "flashcard_keywords": [
+      "BJT",
+      "베이스 전류"
+    ],
+    "interview_answer": "BJT에서 베이스 전류가 증가하면 컬렉터 전류도 증가합니다. 이는 트랜지스터의 이득 특성 때문입니다."
+  },
+  {
+    "id": "AUTO-49438",
+    "category": "반도체 기초 이론",
+    "topic": "반도체 물리",
+    "difficulty": "고급",
+    "question": "Fermi 수준이 도핑에 따라 어떻게 변화하는가?",
+    "options": [
+      "상승한다",
+      "하강한다",
+      "변화하지 않는다",
+      "임의로 변화한다"
+    ],
+    "answer": 0,
+    "explanation": "N형 반도체에서 Fermi 수준은 도핑 농도가 증가할수록 상승하고, P형 반도체에서는 하강한다. 이는 전자 밀도와 홀 밀도의 변화에 따른 것이다.",
+    "flashcard_keywords": [
+      "Fermi 수준",
+      "도핑"
+    ],
+    "interview_answer": "Fermi 수준은 N형 반도체에서 도핑 농도가 증가할수록 상승합니다. 이는 전자 밀도의 변화에 기인합니다."
+  },
+  {
+    "id": "AUTO-49439",
+    "category": "반도체 기초 이론",
+    "topic": "트랜지스터 동작 원리",
+    "difficulty": "초급",
+    "question": "MOSFET의 '컷오프' 상태란 무엇을 의미하는가?",
+    "options": [
+      "전류가 흐르지 않는 상태",
+      "최대 전류 흐름 상태",
+      "지속적인 전류 흐름 상태",
+      "온도가 상승하는 상태"
+    ],
+    "answer": 0,
+    "explanation": "컷오프 상태는 MOSFET에서 게이트 전압이 충분히 낮아져서 전류가 흐르지 않는 상태를 의미한다. 이 상태에서는 MOSFET이 'OFF' 상태로 작동한다.",
+    "flashcard_keywords": [
+      "컷오프 상태",
+      "MOSFET"
+    ],
+    "interview_answer": "MOSFET의 컷오프 상태는 전류가 흐르지 않는 상태를 의미합니다. 이는 MOSFET이 'OFF' 상태로 동작할 때 발생합니다."
+  },
+  {
     "id": "AUTO-72410",
     "category": "반도체 기초 이론",
     "topic": "반도체 물리",
